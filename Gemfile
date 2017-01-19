@@ -5,6 +5,10 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.6'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.15'
+
+gem 'devise'
+gem 'doorkeeper'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
