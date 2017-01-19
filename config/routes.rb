@@ -1,11 +1,20 @@
 Rails.application.routes.draw do
-  use_doorkeeper
+  get 'invites/index'
+
+  get 'invites/create'
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   use_doorkeeper do
     skip_controllers :authorizations, :applications,
                      :authorized_applications
+  end
+
+  namespace :api do
+    resources :events do
+      resources :comments
+    end
   end
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
