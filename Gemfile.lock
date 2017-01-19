@@ -43,6 +43,7 @@ GEM
     builder (3.2.3)
     byebug (9.0.6)
     concurrent-ruby (1.0.4)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -56,6 +57,9 @@ GEM
     erubis (2.7.0)
     factory_girl (4.8.0)
       activesupport (>= 3.0.0)
+    factory_girl_rails (4.8.0)
+      factory_girl (~> 4.8.0)
+      railties (>= 3.0.0)
     faker (1.7.2)
       i18n (~> 0.5)
     globalid (0.3.7)
@@ -165,9 +169,10 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  database_cleaner
   devise
   doorkeeper
-  factory_girl
+  factory_girl_rails
   faker
   jbuilder (~> 2.0)
   pg (~> 0.15)

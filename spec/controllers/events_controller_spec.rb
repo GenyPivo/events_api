@@ -1,6 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe EventsController, type: :controller do
+RSpec.describe Api::EventsController, type: :controller do
+  let!(:user) { create(:user) }
+  let!(:token) { create(:oauth_token, resource_owner_id: user.id) }
+  let!(:event) { create(:event, user_id: user.id)}
+
+  before do
+    allow(controller).to receive(:doorkeeper_token) { token }
+  end
 
   describe "GET #index" do
     it "returns http success" do
