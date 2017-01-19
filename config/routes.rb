@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
-    resources :events do
+    resources :events, :except => [:new, :edit] do
       resources :comments
     end
   end
