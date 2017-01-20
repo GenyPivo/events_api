@@ -2,29 +2,28 @@ class Api::EventsController < ApplicationController
   before_action :doorkeeper_authorize!
 
   def index
-    render json: current_user.events.all
+    render json: request_success(current_user.events.all)
   end
 
   def create
     event = current_user.events.new(event_params)
-    event.save
-    render nothing: true, status: 201
+    render json: request_success(event), status: 201 if event.save!
   end
 
   def show
     event = current_user.events.find(params[:id])
-    render json: event
+    render json: request_success(event)
   end
 
   def update
     event = current_user.events.find(params[:id])
     event.update(event_params)
-    render nothing: true
+    render json: request_success(event)
   end
 
   def destroy
     current_user.events.delete(params[:id])
-    render nothing: true, status: 204
+    render json: request_success('Event deleted'), status: 204
   end
 
   private

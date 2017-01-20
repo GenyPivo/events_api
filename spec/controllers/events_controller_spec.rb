@@ -4,44 +4,85 @@ RSpec.describe Api::EventsController, type: :controller do
   let!(:user) { create(:user) }
   let!(:token) { create(:oauth_token, resource_owner_id: user.id) }
   let!(:event) { create(:event, user_id: user.id)}
+  let!(:new_event_hash) do
+    {
+        place: Faker::Address.full_address,
+        purpose: Faker::Lorem.paragraph(2),
+        event_time: (Date.today + 2.days).to_time.to_i
+    }
+  end
 
   before do
     allow(controller).to receive(:doorkeeper_token) { token }
   end
 
-  describe "GET #index" do
+  describe "event index" do
     it "returns http success" do
       get :index
-      expect(response).to have_http_status(:success)
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns correct json' do
+      get :index
+      expect(JSON.parse(response.body)['data'].to_json).to eq user.events.to_json
     end
   end
 
-  describe "GET #create" do
+  describe "event create" do
+    context 'record will be created if correct data' do
+      it "returns http success" do
+        post :create, new_event_hash
+        expect(response.content_type).to eq 'application/json'
+        expect(response).to have_http_status(201)
+        expect(Event.count).to eq 2
+      end
+    end
+
+    context 'record will be not created if incorrect data' do
+      before do
+        new_event_hash[:event_time] = (Date.today - 5.days).to_time.to_i
+      end
+
+      it "returns http unprocessable entity" do
+        post :create, new_event_hash
+        expect(response.content_type).to eq 'application/json'
+        expect(response).to have_http_status(422)
+        expect(Event.count).to eq 1
+      end
+    end
+
+  end
+
+  describe "event update" do
+    before do
+      new_event_hash[:id] = event.id
+    end
     it "returns http success" do
-      get :create
-      expect(response).to have_http_status(:success)
+      get :update, new_event_hash
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(200)
+      expect(Event.find(event.id).purpose).to eq new_event_hash[:purpose]
     end
   end
 
-  describe "GET #edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
-    end
-  end
+  describe "event destroy" do
+    let!(:foreign_user) { create(:user, email: Faker::Internet.email) }
+    let!(:foreign_event) { create(:event, user_id: foreign_user.id) }
 
-  describe "GET #update" do
-    it "returns http success" do
-      get :update
-      expect(response).to have_http_status(:success)
+    it "user can delete own events" do
+      get :destroy, { id: event.id }
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(204)
+      expect(Event.count).to eq 1
     end
-  end
 
-  describe "GET #destroy" do
-    it "returns http success" do
-      get :destroy
-      expect(response).to have_http_status(:success)
+    it "user cant delete foreign events" do
+      get :destroy, { id: foreign_event.id }
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(404)
+      expect(Event.count).to eq 2
     end
-  end
 
+  end
 end
