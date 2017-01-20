@@ -1,8 +1,9 @@
 require 'rails_helper'
+require 'shared_oauth'
 
 RSpec.describe Api::EventsController, type: :controller do
-  let!(:user) { create(:user) }
-  let!(:token) { create(:oauth_token, resource_owner_id: user.id) }
+  include_context "shared oauth"
+
   let!(:event) { create(:event, user_id: user.id)}
   let!(:new_event_hash) do
     {
@@ -10,10 +11,6 @@ RSpec.describe Api::EventsController, type: :controller do
         purpose: Faker::Lorem.paragraph(2),
         event_time: (Date.today + 2.days).to_time.to_i
     }
-  end
-
-  before do
-    allow(controller).to receive(:doorkeeper_token) { token }
   end
 
   describe "event index" do
@@ -24,6 +21,7 @@ RSpec.describe Api::EventsController, type: :controller do
     end
 
     it 'returns correct json' do
+      p @abc
       get :index
       expect(JSON.parse(response.body)['data'].to_json).to eq user.events.to_json
     end
