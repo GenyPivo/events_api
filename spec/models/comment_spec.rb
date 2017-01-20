@@ -13,7 +13,7 @@ RSpec.describe Comment, type: :model do
 
   it 'validations' do
     should validate_presence_of(:message)
-    should validate_length_of(:title).is_at_most(200)
+    should validate_length_of(:message).is_at_most(200)
 
   end
 
