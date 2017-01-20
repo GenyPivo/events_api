@@ -5,5 +5,14 @@ class Event < ActiveRecord::Base
 
   validates_presence_of :purpose, :place, :event_time
   validates :purpose, length: { maximum: 300 }
-  
+  validate :event_time_cannot_be_in_the_past
+
+  private
+
+  def event_time_cannot_be_in_the_past
+    if event_time.present? && event_time < Date.today
+      errors.add(:event_time, "can't be in the past")
+    end
+  end
+
 end
