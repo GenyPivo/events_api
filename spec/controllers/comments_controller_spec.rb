@@ -6,15 +6,10 @@ RSpec.describe Api::CommentsController, type: :controller do
   let!(:comment) { create(:comment, event_id: event.id, user_id: user.id) }
 
   describe "event comments index" do
-    it "returns http success" do
-      get :index, event_id: event.id
-      expect(response.content_type).to eq 'application/json'
-      expect(response).to have_http_status(:success)
-    end
-
-    it "show all comments" do
-      get :index, event_id: event.id
-      expect(response_data(response)).to eq event.comments.to_json
+    it_behaves_like "controller index" do
+      let!(:action) { :index }
+      let!(:collection) { event.comments }
+      let!(:query) { { event_id: event.id } }
     end
   end
 
