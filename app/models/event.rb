@@ -8,7 +8,7 @@ class Event < ActiveRecord::Base
   validate :event_time_cannot_be_in_the_past
 
   def has_access?(user)
-    owner?(user) || !Invite.where(user_id: user.id).count.zero?
+    owner?(user) || !invites.where(invited_user_id: user.id).count.zero?
   end
 
   def owner?(user)
