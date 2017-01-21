@@ -55,10 +55,9 @@ RSpec.describe Api::EventsController, type: :controller do
   describe "event create" do
     context 'record will be created if correct data' do
       it "returns http success" do
-        post :create, new_event_hash
+        expect { post :create, new_event_hash }.to change(Event, :count).by(1)
         expect(response.content_type).to eq 'application/json'
         expect(response).to have_http_status(201)
-        expect(Event.count).to eq 2
       end
     end
 
@@ -68,10 +67,9 @@ RSpec.describe Api::EventsController, type: :controller do
       end
 
       it "returns http unprocessable entity" do
-        post :create, new_event_hash
+        expect { post :create, new_event_hash }.to change(Event, :count).by(0)
         expect(response.content_type).to eq 'application/json'
         expect(response).to have_http_status(422)
-        expect(Event.count).to eq 1
       end
     end
 
@@ -82,9 +80,13 @@ RSpec.describe Api::EventsController, type: :controller do
       new_event_hash[:id] = event.id
     end
     it "returns http success" do
-      get :update, new_event_hash
+      put :update, new_event_hash
       expect(response.content_type).to eq 'application/json'
       expect(response).to have_http_status(200)
+    end
+
+    it "event update successfully" do
+      put :update, new_event_hash
       expect(Event.find(event.id).purpose).to eq new_event_hash[:purpose]
     end
   end
@@ -94,17 +96,15 @@ RSpec.describe Api::EventsController, type: :controller do
     let!(:foreign_event) { create(:event, user_id: foreign_user.id) }
 
     it "user can delete own events" do
-      get :destroy, { id: event.id }
+      expect { delete :destroy,  id: event.id }.to change(Event, :count).by(-1)
       expect(response.content_type).to eq 'application/json'
       expect(response).to have_http_status(204)
-      expect(Event.count).to eq 1
     end
 
     it "user cant delete foreign events" do
-      get :destroy, { id: foreign_event.id }
+      expect { delete :destroy,  id: foreign_event.id }.to change(Event, :count).by(0)
       expect(response.content_type).to eq 'application/json'
       expect(response).to have_http_status(404)
-      expect(Event.count).to eq 2
     end
 
   end
