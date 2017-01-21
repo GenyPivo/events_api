@@ -39,13 +39,13 @@ RSpec.describe Api::EventsController, type: :controller do
       expect(response_data(response)).to eq user.events.find(event.id).to_json
     end
 
-    it "returns forbidden" do
+    it "returns forbidden http code" do
       get :show, id: second_user_event.id
       expect(response.content_type).to eq 'application/json'
       expect(response).to have_http_status(403)
     end
 
-    it "returns permission denied" do
+    it "returns permission denied json" do
       get :show, id: second_user_event.id
       expect(response_data(response, 'message')).to eq 'Permission denied'.to_json
     end
