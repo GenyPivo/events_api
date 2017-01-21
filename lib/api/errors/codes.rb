@@ -1,4 +1,4 @@
-module Api::Errors::HTTPCodes
+module Api::Errors::Codes
 
   CREATED                 = 201
   BAD_REQUEST             = 400
