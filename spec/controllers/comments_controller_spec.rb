@@ -5,7 +5,7 @@ RSpec.describe Api::CommentsController, type: :controller do
   let!(:event) { create(:event, user_id: user.id)}
   let!(:comment) { create(:comment, event_id: event.id, user_id: user.id) }
   let!(:new_comment) do
-    { message: Faker::Lorem.paragraph(1), event_id: event.id, id: event.id }
+    { message: Faker::Lorem.paragraph(1), event_id: event.id, id: comment.id }
   end
   let!(:model) { Comment }
 
