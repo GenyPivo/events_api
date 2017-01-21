@@ -4,6 +4,8 @@ RSpec.describe Api::EventsController, type: :controller do
   include_context "shared oauth"
 
   let!(:event) { create(:event, user_id: user.id)}
+  let!(:second_user) { create(:user, email: 'sample@sample.com') }
+  let!(:second_user_event) { create(:event, user_id: second_user.id) }
   let!(:new_event_hash) do
     {
         place: Faker::Address.full_address,
@@ -23,6 +25,31 @@ RSpec.describe Api::EventsController, type: :controller do
       get :index
       expect(response_data(response)).to eq user.events.to_json
     end
+  end
+
+  describe "event show" do
+    it "returns http success" do
+      get :show, id: event.id
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(200)
+    end
+
+    it "returns correct json" do
+      get :show, id: event.id
+      expect(response_data(response)).to eq user.events.find(event.id).to_json
+    end
+
+    it "returns forbidden" do
+      get :show, id: second_user_event.id
+      expect(response.content_type).to eq 'application/json'
+      expect(response).to have_http_status(403)
+    end
+
+    it "returns permission denied" do
+      get :show, id: second_user_event.id
+      expect(response_data(response, 'message')).to eq 'Permission denied'.to_json
+    end
+
   end
 
   describe "event create" do

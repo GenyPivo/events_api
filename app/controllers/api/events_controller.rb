@@ -14,7 +14,7 @@ class Api::EventsController < ApplicationController
   end
 
   def show
-    event = events.find(params[:id])
+    event = Event.find(params[:id])
     render json: request_success(event)
   end
 

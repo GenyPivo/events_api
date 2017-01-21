@@ -6,8 +6,8 @@ RSpec.shared_context "shared oauth", :shared_context => :metadata do
     allow(controller).to receive(:doorkeeper_token) { token }
   end
 
-  def response_data(response)
-    JSON.parse(response.body)['data'].to_json
+  def response_data(response, key = 'data')
+    JSON.parse(response.body)[key].to_json
   end
 
 end
