@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   include Api::Errors::Codes
 
+  UNAUTH_MESSAGE = 'Not authorized'.freeze
+
   protect_from_forgery with: :null_session
 
   {
@@ -18,7 +20,7 @@ class ApplicationController < ActionController::Base
   end
 
   def doorkeeper_unauthorized_render_options(error: nil)
-    { json: { status: 'error', message: "Not authorized" } }
+    { json: { status: 'error', message: UNAUTH_MESSAGE } }
   end
 
   def render_with_code(exception, code)

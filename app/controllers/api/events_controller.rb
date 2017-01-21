@@ -10,7 +10,7 @@ class Api::EventsController < ApplicationController
 
   def create
     event = current_user.events.new(event_params)
-    render json: request_success(event), status: 201 if event.save!
+    render json: request_success(event), status: CREATED if event.save!
   end
 
   def show
@@ -26,7 +26,7 @@ class Api::EventsController < ApplicationController
 
   def destroy
     current_user.events.delete(params[:id])
-    render json: request_success(DELETE_MESSAGE), status: 204
+    render json: request_success(DELETE_MESSAGE), status: NO_CONTENT
   end
 
   private
