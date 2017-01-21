@@ -1,6 +1,6 @@
 class Api::CommentsController < ApplicationController
   before_action :doorkeeper_authorize!
-  before_action :check_permission!
+  before_action { check_event_permission! :event_id }
 
   def index
     comments = Event.find(params[:event_id]).comments
@@ -26,8 +26,4 @@ class Api::CommentsController < ApplicationController
     params.permit(:message)
   end
 
-  def check_permission!
-    event = Event.find(params[:event_id])
-    raise Api::Errors::PermissionDenied  unless event.has_access?(current_user)
-  end
 end

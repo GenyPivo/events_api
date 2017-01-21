@@ -29,4 +29,9 @@ class ApplicationController < ActionController::Base
     { status: 'success', data: data }
   end
 
+  def check_event_permission!(param)
+    event = Event.find(params[param])
+    raise Api::Errors::PermissionDenied  unless event.has_access?(current_user)
+  end
+
 end
