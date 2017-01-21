@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
   include Api::Errors::Codes
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
+
   protect_from_forgery with: :null_session
 
   {
@@ -9,9 +8,8 @@ class ApplicationController < ActionController::Base
       ActiveRecord::RecordInvalid => UNPROCESSABLE_ENTITY,
       Api::Errors::PermissionDenied => FORBIDDEN
   }.each do |exception, http_code|
-    rescue_from(exception) { render_with_code(exception, http_code) }
+    rescue_from(exception) { |e| render_with_code(e, http_code) }
   end
-
 
   private
   
