@@ -4,41 +4,34 @@ RSpec.describe Api::CommentsController, type: :controller do
   include_context "shared oauth"
   let!(:event) { create(:event, user_id: user.id)}
   let!(:comment) { create(:comment, event_id: event.id, user_id: user.id) }
+  let!(:new_comment) do
+    { message: Faker::Lorem.paragraph(1), event_id: event.id, id: event.id }
+  end
+  let!(:model) { Comment }
 
   describe "event comments index" do
-    it_behaves_like "controller index" do
+    it_behaves_like "action response" do
       let!(:action) { :index }
-      let!(:collection) { event.comments }
-      let!(:query) { { event_id: event.id } }
+      let!(:params) { { collection: event.comments, query: { event_id: event.id } } }
     end
   end
 
   describe "event comment create" do
-    it "returns http success" do
-      get :create, event_id: event.id
-      expect(response).to have_http_status(:success)
+    it_behaves_like 'record create' do
+      let!(:action) { :create }
+      let!(:params) { { query: new_comment } }
     end
   end
 
-  describe "GET #edit" do
-    it "returns http success" do
-      get :edit
-      expect(response).to have_http_status(:success)
+  describe "event comment update" do
+    it_behaves_like 'record update' do
+      let!(:params) { { query: new_comment, record_id: comment.id} }
     end
   end
 
-  describe "GET #update" do
-    it "returns http success" do
-      get :update
-      expect(response).to have_http_status(:success)
+  describe "event comment destroy" do
+    it_behaves_like 'record destroy' do
+      let!(:params) { { query: { event_id: event.id, id: comment.id } } }
     end
   end
-
-  describe "GET #destroy" do
-    it "returns http success" do
-      get :destroy
-      expect(response).to have_http_status(:success)
-    end
-  end
-
 end
