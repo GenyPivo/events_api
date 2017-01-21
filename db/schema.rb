@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119082954) do
+ActiveRecord::Schema.define(version: 20170121092511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20170119082954) do
   end
 
   add_index "invites", ["event_id"], name: "index_invites_on_event_id", using: :btree
+  add_index "invites", ["invited_user_id", "event_id"], name: "index_invites_on_invited_user_id_and_event_id", unique: true, using: :btree
   add_index "invites", ["user_id"], name: "index_invites_on_user_id", using: :btree
 
   create_table "oauth_access_tokens", force: :cascade do |t|
