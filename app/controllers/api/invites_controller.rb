@@ -11,6 +11,7 @@ class Api::InvitesController < ApplicationController
   def create
     event = current_user.events.find(params[:event_id])
     invite = event.invites.new(invites_params)
+    invite.user_id = current_user.id
     render json: request_success(invite), status: CREATED if invite.save!
   end
 
@@ -25,5 +26,3 @@ class Api::InvitesController < ApplicationController
     params.permit(:invited_user_id)
   end
 end
-
-
