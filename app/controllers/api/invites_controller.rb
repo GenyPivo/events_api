@@ -1,4 +1,4 @@
-class InvitesController < ApplicationController
+class Api::InvitesController < ApplicationController
   before_action :doorkeeper_authorize!
   
   def index
@@ -6,4 +6,9 @@ class InvitesController < ApplicationController
 
   def create
   end
+
+  def destroy
+  end
 end
+
+
