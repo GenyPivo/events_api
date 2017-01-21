@@ -18,7 +18,6 @@ RSpec.describe Api::CommentsController, type: :controller do
 
   describe "event comment create" do
     it_behaves_like 'record create' do
-      let!(:action) { :create }
       let!(:params) { { query: new_comment } }
     end
   end
