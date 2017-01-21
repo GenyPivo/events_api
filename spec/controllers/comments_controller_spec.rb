@@ -1,17 +1,26 @@
 require 'rails_helper'
 
-RSpec.describe CommentsController, type: :controller do
+RSpec.describe Api::CommentsController, type: :controller do
+  include_context "shared oauth"
+  let!(:event) { create(:event, user_id: user.id)}
+  let!(:comment) { create(:comment, event_id: event.id, user_id: user.id) }
 
-  describe "GET #index" do
+  describe "event comments index" do
     it "returns http success" do
-      get :index
+      get :index, event_id: event.id
+      expect(response.content_type).to eq 'application/json'
       expect(response).to have_http_status(:success)
+    end
+
+    it "show all comments" do
+      get :index, event_id: event.id
+      expect(response_data(response)).to eq event.comments.to_json
     end
   end
 
-  describe "GET #create" do
+  describe "event comment create" do
     it "returns http success" do
-      get :create
+      get :create, event_id: event.id
       expect(response).to have_http_status(:success)
     end
   end

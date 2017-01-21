@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'shared_oauth'
 
 RSpec.describe Api::EventsController, type: :controller do
   include_context "shared oauth"
@@ -21,9 +20,8 @@ RSpec.describe Api::EventsController, type: :controller do
     end
 
     it 'returns correct json' do
-      p @abc
       get :index
-      expect(JSON.parse(response.body)['data'].to_json).to eq user.events.to_json
+      expect(response_data(response)).to eq user.events.to_json
     end
   end
 

@@ -1,10 +1,12 @@
 class ApplicationController < ActionController::Base
+  include Api::Errors::HTTPCodes
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :null_session
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   rescue_from ActiveRecord::RecordInvalid, with: :could_not_create
+  rescue_from Api::Errors::PermissionDenied, with: :permission_denied
 
   private
   
@@ -13,15 +15,19 @@ class ApplicationController < ActionController::Base
   end
 
   def record_not_found(exception)
-    render json:  preproces_exception_message(exception.message), status: 404
+    render_with_code exception, NOT_FOUND
   end
 
   def could_not_create(exception)
-    render json: preproces_exception_message(exception.message), status: 422
+    render_with_code exception, UNPROCESSABLE_ENTITY
   end
 
-  def preproces_exception_message(message)
-    { status: 'error', message: message }
+  def permission_denied(exception)
+    render_with_code exception, FORBIDDEN
+  end
+
+  def render_with_code(exception, code)
+    render json: { status: 'error', message: exception.message }, status: code
   end
 
   def request_success(data)

@@ -7,6 +7,14 @@ class Event < ActiveRecord::Base
   validates :purpose, length: { maximum: 300 }
   validate :event_time_cannot_be_in_the_past
 
+  def has_access?(user)
+    owner?(user) || !Invite.where(user_id: user.id).count.zero?
+  end
+
+  def owner?(user)
+    user_id == user.id
+  end
+
   private
 
   def event_time_cannot_be_in_the_past
