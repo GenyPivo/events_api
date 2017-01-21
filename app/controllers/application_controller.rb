@@ -19,6 +19,10 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find(doorkeeper_token[:resource_owner_id])
   end
 
+  def doorkeeper_unauthorized_render_options(error: nil)
+    { json: { status: 'error', message: "Not authorized" } }
+  end
+
   def render_with_code(exception, code)
     render json: { status: 'error', message: exception.message }, status: code
   end
