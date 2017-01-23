@@ -1,26 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Api::CommentsController, type: :controller do
-  include_context "shared oauth"
-  let!(:event) { create(:event, user_id: user.id)}
+  include_context 'shared oauth'
+  let!(:event) { create(:event, user_id: user.id) }
   let!(:comment) { create(:comment, event_id: event.id, user_id: user.id) }
   let!(:new_comment) do
     { message: Faker::Lorem.paragraph(1), event_id: event.id, id: comment.id }
   end
   let!(:model) { Comment }
 
-  describe "event comments index" do
-    it_behaves_like "action response" do
-      let!(:action) { :index }
-      let!(:params) { { collection: event.comments, query: { event_id: event.id } } }
-    end
-  end
-
-  describe "event comment create" do
-    it_behaves_like 'record create' do
-      let!(:params) { { query: new_comment } }
-    end
-
+  describe 'record create' do
+    let!(:params) { { query: new_comment } }
     it 'create comment with attach' do
       new_comment[:document] = fixture_file_upload('images/ruby.png')
       post :create, new_comment
@@ -28,13 +18,13 @@ RSpec.describe Api::CommentsController, type: :controller do
     end
   end
 
-  describe "event comment update" do
+  describe 'event comment update' do
     it_behaves_like 'record update' do
-      let!(:params) { { query: new_comment, record_id: comment.id} }
+      let!(:params) { { query: new_comment, record_id: comment.id } }
     end
   end
 
-  describe "event comment destroy" do
+  describe 'event comment destroy' do
     it_behaves_like 'record destroy' do
       let!(:params) { { query: { event_id: event.id, id: comment.id } } }
     end

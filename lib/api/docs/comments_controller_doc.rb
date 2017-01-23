@@ -17,7 +17,6 @@ module Api::Docs::CommentsControllerDoc
 
   def create; end
 
-
   api :PUT, 'api/events/:event_id/comments/:id'
   param :id, :number, required: true
   param :message, String
@@ -36,5 +35,4 @@ module Api::Docs::CommentsControllerDoc
   er401
 
   def destroy; end
-
 end

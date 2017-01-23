@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::InvitesController, type: :controller do
-  include_context "shared oauth"
+  include_context 'shared oauth'
   let!(:invited_user) { create(:user, email: 'sample@sample.net') }
   let!(:invited_user2) { create(:user, email: 'sample2@sample.net') }
   let!(:event) { create(:event, user_id: user.id) }
@@ -12,20 +12,20 @@ RSpec.describe Api::InvitesController, type: :controller do
   let!(:new_invite) do
     { event_id: event.id, invited_user_id: invited_user2.id }
   end
-  describe "show event invites" do
-    it_behaves_like "action response" do
+  describe 'show event invites' do
+    it_behaves_like 'action response' do
       let!(:action) { :index }
-      let!(:params) { { collection: event.invites , query: { event_id: event.id } } }
+      let!(:params) { { collection: event.invites, query: { event_id: event.id } } }
     end
   end
 
-  describe "event invite create" do
+  describe 'event invite create' do
     it_behaves_like 'record create' do
       let!(:params) { { query: new_invite } }
     end
   end
 
-  describe "event invite destroy" do
+  describe 'event invite destroy' do
     it_behaves_like 'record destroy' do
       let!(:params) { { query: { event_id: event.id, id: invite.id } } }
     end

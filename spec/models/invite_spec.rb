@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Invite, type: :model do
-
-  it "is valid with valid attributes" do
+  it'"is valid with valid attributes' do
     expect(build(:invite)).to be_valid
   end
 
@@ -10,5 +9,4 @@ RSpec.describe Invite, type: :model do
     expect(subject).to belong_to(:user)
     expect(subject).to belong_to(:event)
   end
-
 end

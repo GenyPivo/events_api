@@ -16,12 +16,10 @@ module Api::Docs::InvitesControllerDoc
 
   def create; end
 
-
   api :DELETE, 'api/events/:event_id/invites/:id'
   param :id, :number, require: true
   er404
   er401
 
   def destroy; end
-
 end

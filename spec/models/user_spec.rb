@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-
-  it "is valid with valid attributes" do
+  it 'is valid with valid attributes' do
     expect(build(:user)).to be_valid
   end
 
@@ -11,5 +10,4 @@ RSpec.describe User, type: :model do
     expect(subject).to have_many(:events)
     expect(subject).to have_many(:invites)
   end
-
 end

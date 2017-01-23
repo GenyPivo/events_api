@@ -3,7 +3,7 @@ class Api::UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
-    render :json => request_success(user), status: CREATED if user.save!
+    render json: request_success(user), status: CREATED if user.save!
   end
 
   def user_params

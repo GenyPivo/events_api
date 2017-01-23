@@ -7,8 +7,8 @@ class Api::EventsController < ApplicationController
 
   def index
     if params[:interval].try(:length)
-      render json: request_success(Event.where(event_time: DateTime.now..parse_interval(params[:interval])).find_all do
-      |ev|
+      date = parse_interval(params[:interval])
+      render json: request_success(Event.where(event_time: DateTime.now..date).find_all do |ev|
         ev.has_access?(current_user)
       end)
     else
@@ -18,7 +18,9 @@ class Api::EventsController < ApplicationController
 
   def feed
     date_range = (DateTime.now - FEED_TIME_RANGE)..DateTime.now
-    latest = Comment.order('id DESC').where(created_at: date_range).find_all { |com| com.has_access?(current_user) }
+    latest = Comment.order('id DESC').where(created_at: date_range).find_all do |com|
+      com.has_access?(current_user)
+    end
     render json: request_success(latest)
   end
 
@@ -54,6 +56,7 @@ class Api::EventsController < ApplicationController
     interval_data = interval.match('(\d+)(\w){1}')
     nums = interval_data[1]
     sufix = interval_data[2]
+
     DateTime.now + case sufix
                      when 'd'
                        nums.to_i.days

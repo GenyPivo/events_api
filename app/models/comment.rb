@@ -4,7 +4,9 @@ class Comment < ActiveRecord::Base
   belongs_to :event
 
   has_attached_file :document
-  validates_attachment_content_type :document, content_type: PERMITTED_MIME, size: { in: 0..10.megabytes }
+  validates_attachment_content_type :document,
+                                    content_type: PERMITTED_MIME,
+                                    size: { in: 0..10.megabytes }
 
   validates :message, length: { maximum: 200 }, presence: true
 

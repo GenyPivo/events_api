@@ -17,7 +17,6 @@ module Api::Docs::HttpErrorsHelper
   end
 
   def er401(message = 'Invalid token')
-    error NOT_AUTHORIZED , message
+    error NOT_AUTHORIZED, message
   end
-
 end

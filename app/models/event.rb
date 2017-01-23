@@ -22,5 +22,4 @@ class Event < ActiveRecord::Base
       errors.add(:event_time, "can't be in the past")
     end
   end
-
 end

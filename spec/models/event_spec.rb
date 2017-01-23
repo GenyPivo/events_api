@@ -1,10 +1,8 @@
 require 'rails_helper'
-
 RSpec.describe Event, type: :model do
-
   let!(:event) { create(:event) }
 
-  it "is valid with valid attributes" do
+  it 'is valid with valid attributes' do
     expect(build(:event)).to be_valid
   end
 
@@ -21,14 +19,14 @@ RSpec.describe Event, type: :model do
   end
 
   describe 'event time validation' do
-
     it 'validate event time correctly' do
       expect(Event.count).to eq 1
     end
 
     it 'raise validation error' do
-      expect { create(:event, event_time: Date.today - 2.days) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect do
+        create(:event, event_time: Date.today - 2.days)
+      end.to raise_error(ActiveRecord::RecordInvalid)
     end
   end
-
 end

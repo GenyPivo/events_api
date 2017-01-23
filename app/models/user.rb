@@ -14,5 +14,4 @@ class User < ActiveRecord::Base
       user.try(:valid_password?, password) ? user : nil
     end
   end
-
 end

@@ -3,7 +3,8 @@ module Api::Docs::EventsControllerDoc
   extend Api::Docs::HttpErrorsHelper
 
   api :GET, 'api/events'
-  param :interval, String, desc: 'Get events in range from today..today + interval. Should be like 2d,2y,14h,2m'
+  desc = 'Get events in range from today..today + interval. Should be like 2d,2y,14h,2m'
+  param :interval, String, desc: desc
   er406
   er401
 
@@ -49,5 +50,4 @@ module Api::Docs::EventsControllerDoc
   er401
 
   def destroy; end
-
 end

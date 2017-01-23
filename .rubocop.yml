@@ -1,0 +1,28 @@
+Metrics/LineLength:
+  Max: 100
+Metrics/BlockLength:
+  Max: 90
+Metrics/MethodLength:
+  Max: 15
+Metrics/AbcSize:
+  Max: 20
+AllCops:
+  Excludes:
+    - db/**
+    - db/migrate/**
+    - config/**
+    - config/initializers/**
+    - config/environments/**
+    - bin/**
+Documentation:
+  Enabled: false
+Style/PredicateName:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+RegexpLiteral:
+  Enabled: false
+CaseIndentation:
+  Enabled: false
+Style/GuardClause:
+  Enabled: false

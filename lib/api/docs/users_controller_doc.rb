@@ -9,5 +9,4 @@ module Api::Docs::UsersControllerDoc
   er422
 
   def create; end
-
 end
