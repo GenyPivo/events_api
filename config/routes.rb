@@ -1,14 +1,12 @@
 Rails.application.routes.draw do
   apipie
-  devise_for :users
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
   use_doorkeeper do
     skip_controllers :authorizations, :applications,
                      :authorized_applications
   end
 
    namespace :api do
+    post 'users', to: 'users#create'
     get 'events/feed', to: 'events#feed'
 
     resources :events, except: [:new, :edit] do
