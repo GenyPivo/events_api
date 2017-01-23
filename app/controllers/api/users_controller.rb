@@ -1,7 +1,9 @@
 class Api::UsersController < ApplicationController
+  include Api::Docs::UsersControllerDoc
+
   def create
     user = User.new(user_params)
-    render :json => user.to_json, status: CREATED if user.save!
+    render :json => request_success(user), status: CREATED if user.save!
   end
 
   def user_params
