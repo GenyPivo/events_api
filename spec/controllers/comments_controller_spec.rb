@@ -20,6 +20,12 @@ RSpec.describe Api::CommentsController, type: :controller do
     it_behaves_like 'record create' do
       let!(:params) { { query: new_comment } }
     end
+
+    it 'create comment with attach' do
+      new_comment[:document] = fixture_file_upload('images/ruby.png')
+      post :create, new_comment
+      expect(IO.read(File.new(Comment.last.document.path))).to eq IO.read(new_comment[:document])
+    end
   end
 
   describe "event comment update" do
