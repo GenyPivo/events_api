@@ -8,7 +8,8 @@ class ApplicationController < ActionController::Base
   {
       ActiveRecord::RecordNotFound => NOT_FOUND,
       ActiveRecord::RecordInvalid => UNPROCESSABLE_ENTITY,
-      Api::Errors::PermissionDenied => FORBIDDEN
+      Api::Errors::PermissionDenied => FORBIDDEN,
+      Api::Errors::WrongIntervalFormat => BAD_FORMAT
   }.each do |exception, http_code|
     rescue_from(exception) { |e| render_with_code(e, http_code) }
   end

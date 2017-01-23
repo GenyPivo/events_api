@@ -3,7 +3,15 @@ class Api::EventsController < ApplicationController
   before_action -> { check_event_permission! :id }, only: :show
 
   def index
-    render json: request_success(current_user.events.all)
+
+    if params[:interval].try(:length)
+      render json: request_success(Event.where(event_time: DateTime.now..parse_interval(params[:interval])).find_all do
+      |ev|
+        ev.has_access?(current_user)
+      end)
+    else
+      render json: request_success(Event.all.find_all { |ev| ev.has_access?(current_user) })
+    end
   end
 
   def create
@@ -30,7 +38,25 @@ class Api::EventsController < ApplicationController
   private
 
   def event_params
-    params[:event_time] = DateTime.strptime(params[:event_time],'%s')
+    params[:event_time] = DateTime.strptime(params[:event_time], '%s')
     params.permit(:place, :purpose, :event_time, :user_id)
+  end
+
+  def parse_interval(interval)
+    interval_data = interval.match('(\d+)(\w){1}')
+    nums = interval_data[1]
+    sufix = interval_data[2]
+    DateTime.now + case sufix
+                     when 'd'
+                       nums.to_i.days
+                     when 'm'
+                       nums.to_i.month
+                     when 'y'
+                       nums.to_i.year
+                     when 'h'
+                       nums.to_i.hours
+                     else
+                       raise Api::Errors::WrongIntervalFormat
+                   end
   end
 end
