@@ -2,6 +2,8 @@ class Api::EventsController < ApplicationController
   before_action :doorkeeper_authorize!
   before_action -> { check_event_permission! :id }, only: :show
 
+  FEED_TIME_RANGE = 7.days
+
   def index
 
     if params[:interval].try(:length)
@@ -12,6 +14,12 @@ class Api::EventsController < ApplicationController
     else
       render json: request_success(Event.all.find_all { |ev| ev.has_access?(current_user) })
     end
+  end
+
+  def feed
+    date_range = (DateTime.now - FEED_TIME_RANGE)..DateTime.now
+    latest = Comment.order('id DESC').where(created_at: date_range).find_all { |com| com.has_access?(current_user) }
+    render json: request_success(latest)
   end
 
   def create
@@ -32,7 +40,7 @@ class Api::EventsController < ApplicationController
 
   def destroy
     current_user.events.delete(params[:id])
-    render nothing: true, status: NO_CONTENT
+    render json: {}, status: NO_CONTENT
   end
 
   private

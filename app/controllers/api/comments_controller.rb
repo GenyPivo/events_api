@@ -22,7 +22,7 @@ class Api::CommentsController < ApplicationController
 
   def destroy
     current_user.comments.delete(params[:id])
-    render nothing: true, status: NO_CONTENT
+    render json: {}, status: NO_CONTENT
   end
 
   private

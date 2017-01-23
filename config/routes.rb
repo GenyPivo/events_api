@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    get 'events/feed', to: 'events#feed'
     resources :events, except: [:new, :edit] do
       resources :comments
       resources :invites, only: [:index, :create, :destroy]

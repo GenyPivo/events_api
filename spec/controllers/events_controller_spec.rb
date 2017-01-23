@@ -18,7 +18,7 @@ RSpec.describe Api::EventsController, type: :controller do
   describe "event index" do
     it_behaves_like "action response" do
       let!(:action) { :index }
-      let!(:params) { { collection: user.events, query: {} } }
+      let!(:params) { { collection: user.events } }
     end
   end
 
@@ -38,6 +38,22 @@ RSpec.describe Api::EventsController, type: :controller do
       expect(response_data(response, 'message')).to eq 'Permission denied'.to_json
     end
 
+  end
+
+  describe "events feed" do
+
+    it_behaves_like 'action response' do
+      let!(:collection) do
+        7.times.collect do
+          create(:comment, user_id: user.id, event_id: event.id)
+        end.reverse
+      end
+      let!(:old_comment) do
+        create(:comment, created_at: DateTime.now - 8.days, user_id: user.id, event_id: event.id)
+      end
+      let!(:action) { :feed }
+      let!(:params) { { collection: collection } }
+    end
   end
 
   describe "event create" do

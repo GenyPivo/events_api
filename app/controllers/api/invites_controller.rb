@@ -15,7 +15,7 @@ class Api::InvitesController < ApplicationController
 
   def destroy
     current_user.invites.delete(params[:id])
-    render nothing: true, status: NO_CONTENT
+    render json: {}, status: NO_CONTENT
   end
 
   private
