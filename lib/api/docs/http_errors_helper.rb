@@ -16,4 +16,8 @@ module Api::Docs::HttpErrorsHelper
     error FORBIDDEN, 'Permission denied'
   end
 
+  def er401(message = 'Invalid token')
+    error NOT_AUTHORIZED , message
+  end
+
 end

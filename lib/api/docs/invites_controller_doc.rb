@@ -2,22 +2,25 @@ module Api::Docs::InvitesControllerDoc
   extend Apipie::DSL::Concern
   extend Api::Docs::HttpErrorsHelper
 
-  api :GET, '/events/:event_id/invites'
+  api :GET, 'api/events/:event_id/invites'
   description 'Show current event invites'
+  er401
 
   def index; end
 
-  api :POST, '/events/:event_id/invites'
+  api :POST, 'api/events/:event_id/invites'
   description 'Create new invite'
   param :invited_user_id, Integer, required: true
   er422
+  er401
 
   def create; end
 
 
-  api :DELETE, '/events/:event_id/invites/:id'
+  api :DELETE, 'api/events/:event_id/invites/:id'
   param :id, :number, require: true
   er404
+  er401
 
   def destroy; end
 

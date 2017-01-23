@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
   apipie
-  get 'invites/index'
-
-  get 'invites/create'
-
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
@@ -12,8 +8,9 @@ Rails.application.routes.draw do
                      :authorized_applications
   end
 
-  namespace :api do
+   namespace :api do
     get 'events/feed', to: 'events#feed'
+
     resources :events, except: [:new, :edit] do
       resources :comments
       resources :invites, only: [:index, :create, :destroy]
