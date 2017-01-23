@@ -28,7 +28,7 @@ class Api::CommentsController < ApplicationController
   private
 
   def comment_params
-    params.permit(:message)
+    params.permit(:message, :document)
   end
 
 end
