@@ -1,4 +1,5 @@
 class Api::CommentsController < ApplicationController
+  include Api::Docs::CommentsControllerDoc
   before_action :doorkeeper_authorize!
   before_action { check_event_permission! :event_id }
 

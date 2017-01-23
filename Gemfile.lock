@@ -36,6 +36,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    apipie-rails (0.3.7)
+      json
     arel (6.0.4)
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
@@ -171,6 +173,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  apipie-rails
   byebug
   database_cleaner
   devise

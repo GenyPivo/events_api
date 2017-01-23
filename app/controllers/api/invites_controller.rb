@@ -1,5 +1,6 @@
 class Api::InvitesController < ApplicationController
   before_action :doorkeeper_authorize!
+  include Api::Docs::InvitesControllerDoc
 
   def index
     invites = current_user.events.find(params[:event_id]).invites

@@ -1,11 +1,11 @@
 class Api::EventsController < ApplicationController
+  include Api::Docs::EventsControllerDoc
   before_action :doorkeeper_authorize!
   before_action -> { check_event_permission! :id }, only: :show
 
   FEED_TIME_RANGE = 7.days
 
   def index
-
     if params[:interval].try(:length)
       render json: request_success(Event.where(event_time: DateTime.now..parse_interval(params[:interval])).find_all do
       |ev|
