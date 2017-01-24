@@ -3,22 +3,23 @@
 # How to to run ?
 
   - Install docker, docker-compose
-### Then
-#### For first time:
+
+### For first time:
   ```sh
   $ docker-compose up -d db
   $ docker-compose build web
   $ docker-compose run --rm web rake db:create db:migrate
   ```
-#### After:
+### After:
   ``` sh
   $ docker-compose up
   ```
-#### API for endpoints
+### API for endpoints
  * Check localhost:3000
-#### Test
+
+### Test
   ```
-    $ docker-compose run --rm web bundle exec rspec
+  $ docker-compose run --rm web bundle exec rspec
    ```
 ##### Also you can do all this without docker
  I think you know how to do it )
