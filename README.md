@@ -14,7 +14,7 @@
   ``` sh
   $ docker-compose up
   ```
-### API for endpoints
+### Doc for endpoints
  * Check localhost:3000
 
 ### Test
