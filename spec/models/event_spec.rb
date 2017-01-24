@@ -15,7 +15,7 @@ RSpec.describe Event, type: :model do
     should validate_presence_of(:place)
     should validate_presence_of(:purpose)
     should validate_presence_of(:event_time)
-    should validate_length_of(:purpose).is_at_most(300)
+    should validate_length_of(:purpose).is_at_most(2000)
   end
 
   describe 'event time validation' do

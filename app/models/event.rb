@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   has_many :invites, dependent: :destroy
 
   validates_presence_of :purpose, :place, :event_time
-  validates :purpose, length: { maximum: 300 }
+  validates :purpose, length: { maximum: 2000 }
   validate :event_time_cannot_be_in_the_past
 
   def has_access?(user)

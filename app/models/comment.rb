@@ -8,7 +8,7 @@ class Comment < ActiveRecord::Base
                                     content_type: PERMITTED_MIME,
                                     size: { in: 0..10.megabytes }
 
-  validates :message, length: { maximum: 200 }, presence: true
+  validates :message, length: { maximum: 1000 }, presence: true
 
   def has_access?(user)
     event.has_access?(user)
