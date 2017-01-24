@@ -4,11 +4,12 @@ module Api::Docs::CommentsControllerDoc
 
   api :GET, 'api/events/:event_id/comments'
   description 'Show current event comments'
-
+  param :access_token, String, required: true
   def index; end
 
   api :POST, 'api/events/:event_id/comments'
   description 'Create new comment'
+  param :access_token, String, required: true
   param :message, String, required: true
   param :document, File
   er422
@@ -18,6 +19,7 @@ module Api::Docs::CommentsControllerDoc
   def create; end
 
   api :PUT, 'api/events/:event_id/comments/:id'
+  param :access_token, String, required: true
   param :id, :number, required: true
   param :message, String
   param :document, File
@@ -29,6 +31,7 @@ module Api::Docs::CommentsControllerDoc
   def update; end
 
   api :DELETE, 'api/events/:event_id/comments/:id'
+  param :access_token, String, required: true
   param :id, :number, required: true
   er404
   er403
